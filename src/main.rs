@@ -38,6 +38,22 @@ pub fn remove_spaces(string : String) -> String{
     string.replace(" ", "")
 }
 
+pub fn check_for_errors(string: Vec<char>) -> bool{
+    //string examples: ENTER Button A = FORWARD; EXIT
+
+    if string[0..5].iter().collect::<String>() != "ENTER"{
+        println!("String must start with the key word 'ENTER', you provided: {}", string[0..5].iter().collect::<String>());
+        return false
+    }
+
+    if string[string.len()-4..string.len()].iter().collect::<String>() != "EXIT"{
+        println!("String must end with the key word 'EXIT', you provided: {}", string[string.len()-4..string.len()].iter().collect::<String>());
+        return false
+    }
+
+    true
+}
+
 fn main() {
     print_grammar();
     let mut input = String::from(get_and_return_input().to_string());
@@ -47,23 +63,25 @@ fn main() {
 
         let new_input: Vec<char> = input.chars().collect(); //turning the input string to a vector; allows parsing by index; link: https://stackoverflow.com/questions/24542115/how-to-index-a-string-in-rust
         
-        for x in 0..new_input.len(){
-            println!("{}", new_input[x]);
-
-
+        if check_for_errors(new_input.clone()) != false{
+            for x in 0..new_input.len(){
+                println!("{}", new_input[x]);
+            }
+    
+            // ------------  showing input prompt again to restart or terminate program ------------//
+            let mut option = String::new();
+            print!("---Restarting---\nSee Grammar Again(Y)\nSkip(Enter)\nEnd Program(HALT)\n---------------\noption: "); let _ = io::stdout().flush();
+            io::stdin().read_line(&mut option).expect("Error reading from STDIN for option");
+    
+            if option.trim() == "Y"{
+                print_grammar();   
+            }else if option.trim() == "HALT"{
+                break;
+            }
+            input = get_and_return_input();
+        }else{
+            input = get_and_return_input();
         }
-
-        // ------------  showing input prompt again to restart or terminate program ------------//
-        let mut option = String::new();
-        print!("---Restarting---\nSee Grammar Again(Y)\nSkip(Enter)\nEnd Program(HALT)\n---------------\noption: "); let _ = io::stdout().flush();
-        io::stdin().read_line(&mut option).expect("Error reading from STDIN for option");
-
-        if option.trim() == "Y"{
-            print_grammar();   
-        }else if option.trim() == "HALT"{
-            break;
-        }
-        input = get_and_return_input();
     }
 
     println!("End of program.");
