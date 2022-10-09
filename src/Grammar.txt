@@ -2,7 +2,7 @@
 <instructions>→ <instruction>;
 	            | <instruction>; <instructions>
  <instruction>→ <buttons> = <direction>
-   <direction>→ FORWARD | BACKWARD | LEFT | RIGHT | SRIGHT | SLEFT
+   <direction>→ FORWARD | BACKWARD | SRIGHT | SLEFT
      <buttons>→ <button> <key>
       <button>→ Button
          <key>→ W | A | S | D | Q | E

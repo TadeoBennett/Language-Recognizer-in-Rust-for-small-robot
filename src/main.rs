@@ -3,85 +3,56 @@
 //--------------for debugging-------------------//
 
 //Self note: use "cargo build" or "cargo run"
-
+//run
 // use std::io;
 use std::io::{self, Write};
-
-pub fn print_grammar() {
-    println!(
-        "BNF GRAMMAR is as follows:
-***********************************************************************
-     <program>-> ENTER <instructions> EXIT
-<instructions>-> <instruction>
-               | <instruction>; <instructions>
- <instruction>-> <buttons> = <direction>
-   <direction>-> FORWARD | BACKWARD | LEFT | RIGHT | SRIGHT | SLEFT
-     <buttons>-> <button> <key>
-      <button>-> Button
-         <key>-> W | A | S | D | Q | E
-***********************************************************************
-Input String Form: Button A = FORWARD; Button B = BACKWARD
-***********************************************************************");
-}
-
-pub fn get_and_return_input() -> String {
-    let mut input = String::new();
-    print!("Input String(HALT to end): ");
-    let _ = io::stdout().flush(); //allows the input to be on the same line as the prompt; link: https://www.folkstalk.com/2022/07/rust-get-input-on-the-same-line-as-question-with-code-examples.html
-
-    io::stdin().read_line(&mut input).expect("Error reading from STDIN"); //reads line or shows error
-
-    input.trim().to_string() //returns the input 
-}
-
-pub fn remove_spaces(string : String) -> String{
-    string.replace(" ", "")
-}
-
-pub fn check_for_errors(string: Vec<char>) -> bool{
-    //string examples: ENTER Button A = FORWARD; EXIT
-
-    if string[0..5].iter().collect::<String>() != "ENTER"{
-        println!("String must start with the key word 'ENTER', you provided: {}", string[0..5].iter().collect::<String>());
-        return false
-    }
-
-    if string[string.len()-4..string.len()].iter().collect::<String>() != "EXIT"{
-        println!("String must end with the key word 'EXIT', you provided: {}", string[string.len()-4..string.len()].iter().collect::<String>());
-        return false
-    }
-
-    true
-}
+mod functions;
+mod classes;
 
 fn main() {
-    print_grammar();
-    let mut input = String::from(get_and_return_input().to_string());
+    functions::print_grammar();
+    let mut input = String::from(functions::get_and_return_input().to_string());
 
     while input != "HALT"{
-        input = remove_spaces(input);
+        input = functions::remove_spaces(input);
 
         let new_input: Vec<char> = input.chars().collect(); //turning the input string to a vector; allows parsing by index; link: https://stackoverflow.com/questions/24542115/how-to-index-a-string-in-rust
         
-        if check_for_errors(new_input.clone()) != false{
-            for x in 0..new_input.len(){
-                println!("{}", new_input[x]);
+        if functions::check_for_errors(new_input.clone()) != false{
+            // for x in 0..new_input.len(){
+            //     println!("{}", new_input[x]);
+            // }
+
+            functions::output_decision_menu();
+            let mut decision = String::from(functions::get_decision().to_string());
+            loop {
+                if decision == "1"{
+                    functions::print_derivations();
+                } else if decision == "2"{
+                    functions::print_parse_tree();
+                } else if decision == "3"{
+                    break;
+                } else {
+                    println!("Not a valid option");
+                }
+                functions::output_decision_menu();
+                decision = functions::get_decision();
             }
     
             // ------------  showing input prompt again to restart or terminate program ------------//
             let mut option = String::new();
-            print!("---Restarting---\nSee Grammar Again(Y)\nSkip(Enter)\nEnd Program(HALT)\n---------------\noption: "); let _ = io::stdout().flush();
-            io::stdin().read_line(&mut option).expect("Error reading from STDIN for option");
+            print!("\n---Restarting---\nSee Grammar Again(Y)\nSkip(Enter)\nEnd Program(HALT)\n---------------\noption: "); let _ = io::stdout().flush();
+            io::stdin().read_line(&mut option).expect("Error reading option from STDIN for option");
     
             if option.trim() == "Y"{
-                print_grammar();   
+                functions::print_grammar();   
             }else if option.trim() == "HALT"{
                 break;
+            }else{
+                println!("skipped...\n");
             }
-            input = get_and_return_input();
-        }else{
-            input = get_and_return_input();
         }
+        input = functions::get_and_return_input();
     }
 
     println!("End of program.");
