@@ -5,7 +5,7 @@
    <direction>→ FORWARD | BACKWARD | SRIGHT | SLEFT
      <buttons>→ <button> <key>
       <button>→ Button
-         <key>→ W | A | S | D | Q | E
+         <key>→ A | B | C | D
 
 
 Input: Button A = SRIGHT;

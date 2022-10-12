@@ -1,5 +1,6 @@
 use std::io::{self, Write};
 
+
 pub fn print_grammar() {
    println!(
        "BNF GRAMMAR is as follows:
@@ -11,7 +12,7 @@ pub fn print_grammar() {
   <direction>-> FORWARD | BACKWARD | SRIGHT | SLEFT
     <buttons>-> <button> <key>
      <button>-> Button
-        <key>-> W | A | S | D | Q | E
+        <key>-> A | B | C | D
 ***********************************************************************
 Input String Form: Button A = FORWARD; Button B = BACKWARD
 ***********************************************************************");
@@ -36,6 +37,15 @@ pub fn get_and_return_input() -> String {
    input.trim().to_string() //returns the input 
 }
 
+pub fn get_general_input() -> String {
+   let mut input = String::new();
+   let _ = io::stdout().flush(); 
+
+   io::stdin().read_line(&mut input).expect("Error reading from STDIN"); //reads line or shows error
+
+   input.trim().to_string() //returns the input 
+}
+
 pub fn get_decision() -> String {
    let mut input = String::new();
    print!("option: ");
@@ -46,6 +56,12 @@ pub fn get_decision() -> String {
 
 pub fn remove_spaces(string : String) -> String{
    string.replace(" ", "")
+}
+
+pub fn remove_prefix_and_suffix(string: String) -> String{
+   let mut _string = string.replace("ENTER", "");
+   _string = _string.replace("EXIT", "");
+   _string //returns the new string without the ENTER AND EXIT text
 }
 
 pub fn check_for_errors(string: Vec<char>) -> bool{
@@ -81,18 +97,29 @@ pub fn check_for_errors(string: Vec<char>) -> bool{
 }
 
 pub fn valid_letter(letter: char) -> bool{
-   if letter != 'W' && letter != 'S' && letter != 'A' && letter != 'D' && letter != 'Q' && letter != 'E'{
+   if letter != 'A' && letter != 'B' && letter != 'C' && letter != 'D'{
       false
    }else{
       true
    }
 }
 
-pub fn print_derivations(){
-   print!("derivations printed\n");
+pub fn print_derivations(_string: Vec<char>) -> bool{
+   let _string = remove_prefix_and_suffix(_string[0.._string.len()].iter().collect::<String>()); //removes ENTER and EXIT from the string
+   let instructions_group: Vec<&str> = _string.split(";").collect(); //splits string if a ";" is found
+   if instructions_group.len() == 1{
+      
+      return true
+   }else if instructions_group.len() > 1{
+      
+      return true
+   }else{
+      println!("Error reading length of instructions.\n");
+      return false
+   }
 }
 
-pub fn print_parse_tree(){
+pub fn print_parse_tree(_string: Vec<char>){
    print!("parse tree printed\n");
 }
 

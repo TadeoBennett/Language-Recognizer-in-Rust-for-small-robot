@@ -19,17 +19,15 @@ fn main() {
         let new_input: Vec<char> = input.chars().collect(); //turning the input string to a vector; allows parsing by index; link: https://stackoverflow.com/questions/24542115/how-to-index-a-string-in-rust
         
         if functions::check_for_errors(new_input.clone()) != false{
-            // for x in 0..new_input.len(){
-            //     println!("{}", new_input[x]);
-            // }
-
             functions::output_decision_menu();
             let mut decision = String::from(functions::get_decision().to_string());
             loop {
                 if decision == "1"{
-                    functions::print_derivations();
+                    if functions::print_derivations(new_input.clone()) == false{
+                        break;
+                    }
                 } else if decision == "2"{
-                    functions::print_parse_tree();
+                    functions::print_parse_tree(new_input.clone());
                 } else if decision == "3"{
                     break;
                 } else {
