@@ -1,6 +1,4 @@
 use std::io::{self, Write};
-use std::fs::File;
-use std::io::prelude::*;
 
 pub fn print_grammar() {
    println!(
@@ -19,16 +17,6 @@ Input String Form: ENTER Button A = FORWARD; Button B = BACKWARD; EXIT
 ***********************************************************************");
 }
 
-pub fn output_decision_menu(){
-   println!("
-***********************
-1. Print Derivations
-2. Print Parse Tree
-3. Genereate IZEBOT.BSP File
-4. Exit
-***********************");
-}
-
 pub fn get_and_return_input() -> String {
    let mut input = String::new();
    print!("Input String(HALT to end): ");
@@ -36,14 +24,6 @@ pub fn get_and_return_input() -> String {
 
    io::stdin().read_line(&mut input).expect("Error reading from STDIN"); //reads line or shows error
 
-   input.trim().to_string() //returns the input 
-}
-
-pub fn get_decision() -> String {
-   let mut input = String::new();
-   print!("option: ");
-   let _ = io::stdout().flush();
-   io::stdin().read_line(&mut input).expect("Error reading decision"); //reads line or shows error
    input.trim().to_string() //returns the input 
 }
 

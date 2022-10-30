@@ -5,9 +5,6 @@
 //Self note: use "cargo build" or "cargo run"
 //run
 // use std::io;
-use std::io::{self, stdin, stdout, Write};
-
-use crate::functions::pause;
 
 mod derivations;
 mod functions;
@@ -36,7 +33,7 @@ fn main() {
                 }
                 println!("Parse tree done\n");
                 functions::pause();
-                bsp::generate_bsp_file(instructions_group.clone(), instructions_group.len());
+                bsp::generate_bsp_file(instructions_group.clone());
                 functions::pause();
                 break;
             }

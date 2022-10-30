@@ -1,8 +1,7 @@
-use std::io::{self, Write};
 use std::fs::File;
 use std::io::prelude::*;
 
-pub fn generate_bsp_file(instructions_group: Vec<&str>, instructions_count: usize) {
+pub fn generate_bsp_file(instructions_group: Vec<&str>) {
    println!("\n************* SHOWING BSP FILE FOR IZEBOT ****************\n");
     let mut file = File::create("IZEBOT.BSP").expect("Error encountered while creating file!");
 
