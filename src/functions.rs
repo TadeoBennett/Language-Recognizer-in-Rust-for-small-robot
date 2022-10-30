@@ -1,5 +1,6 @@
 use std::io::{self, Write};
-
+use std::fs::File;
+use std::io::prelude::*;
 
 pub fn print_grammar() {
    println!(
@@ -14,7 +15,7 @@ pub fn print_grammar() {
      <button>-> Button
         <key>-> A | B | C | D
 ***********************************************************************
-Input String Form: Button A = FORWARD; Button B = BACKWARD
+Input String Form: ENTER Button A = FORWARD; Button B = BACKWARD; EXIT
 ***********************************************************************");
 }
 
@@ -23,7 +24,8 @@ pub fn output_decision_menu(){
 ***********************
 1. Print Derivations
 2. Print Parse Tree
-3. Exit
+3. Genereate IZEBOT.BSP File
+4. Exit
 ***********************");
 }
 
@@ -31,15 +33,6 @@ pub fn get_and_return_input() -> String {
    let mut input = String::new();
    print!("Input String(HALT to end): ");
    let _ = io::stdout().flush(); //allows the input to be on the same line as the prompt; link: https://www.folkstalk.com/2022/07/rust-get-input-on-the-same-line-as-question-with-code-examples.html
-
-   io::stdin().read_line(&mut input).expect("Error reading from STDIN"); //reads line or shows error
-
-   input.trim().to_string() //returns the input 
-}
-
-pub fn get_general_input() -> String {
-   let mut input = String::new();
-   let _ = io::stdout().flush(); 
 
    io::stdin().read_line(&mut input).expect("Error reading from STDIN"); //reads line or shows error
 
@@ -56,12 +49,6 @@ pub fn get_decision() -> String {
 
 pub fn remove_spaces(string : String) -> String{
    string.replace(" ", "")
-}
-
-pub fn remove_prefix_and_suffix(string: String) -> String{
-   let mut _string = string.replace("ENTER", "");
-   _string = _string.replace("EXIT", "");
-   _string //returns the new string without the ENTER AND EXIT text
 }
 
 pub fn check_for_errors(string: Vec<char>) -> bool{
@@ -81,18 +68,33 @@ pub fn check_for_errors(string: Vec<char>) -> bool{
        return false
    }
 
-   for x in 0..string.len() {
-       if (string[x] == ';') && (string[x-1] != 'T' && string[x-1] != 'D'){
-          println!("Compared {} with T/D", string[x-1]);
-           println!("Incorrect direction statement prior the ';'\n");
-           return false
-       }
-       if (string[x] == '=') && !(valid_letter(string[x-1])){
-           println!("Button value not recognized in assignment, you provided: {}\n", string[x-1]);
-           return false
-       }
-   }
+   let check_string = remove_prefix_and_suffix(string[0..string.len()].iter().collect::<String>()); //removes the ENTER and EXIT from string
+   let instructions_group: Vec<&str> = check_string.split_inclusive(";").collect();                   //create group of instructions sepatated by a semicolon
 
+   for instruction in instructions_group{
+      let new_instruction: Vec<char> = instruction.chars().collect(); //convert the instruction to a vector of chars
+      
+      let index1_for_direction = return_char_index('=', new_instruction.clone());
+      let index2_for_direction= return_char_index(';', new_instruction.clone());
+
+      let button_text = new_instruction[0..index1_for_direction.clone()-1].iter().collect::<String>().clone();
+      if button_text != "Button"{
+         print!("Invalid grammar '{}'; Expected 'Button' in instruction: {}\n\n", button_text, instruction);
+         return false;
+      }
+
+      let variable = new_instruction[return_char_index('=', new_instruction.clone()) - 1];
+      if !valid_letter(variable){
+         println!("Invalid variable '{}' in instruction: {}\n", variable, instruction);
+         return false;
+      }
+
+      let direction = new_instruction[index1_for_direction.clone()+1..index2_for_direction.clone()].iter().collect::<String>().clone();
+      if !valid_direction(direction.clone()){
+         println!("Invalid directional statement '{}' in instruction: {}\n", direction, instruction);
+         return false;
+      }
+   }
    true
 }
 
@@ -104,25 +106,34 @@ pub fn valid_letter(letter: char) -> bool{
    }
 }
 
-pub fn print_derivations(_string: Vec<char>) -> bool{
-   let _string = remove_prefix_and_suffix(_string[0.._string.len()].iter().collect::<String>()); //removes ENTER and EXIT from the string
-   let instructions_group: Vec<&str> = _string.split(";").collect(); //splits string if a ";" is found
-   if instructions_group.len() == 1{
-      
-      return true
-   }else if instructions_group.len() > 1{
-      
-      return true
+pub fn valid_direction(direction: String) -> bool{
+   if direction != "FORWARD" && direction != "BACKWARD" && direction != "LEFT" && direction != "RIGHT" && direction != "SRIGHT"  && direction != "SLEFT"{
+      false
    }else{
-      println!("Error reading length of instructions.\n");
-      return false
+      true
    }
 }
 
-pub fn print_parse_tree(_string: Vec<char>){
-   print!("parse tree printed\n");
+pub fn remove_prefix_and_suffix(string: String) -> String {
+   let mut _string = string.replace("ENTER", "");
+   _string = _string.replace("EXIT", "");
+   _string //returns the new string without the ENTER AND EXIT text
 }
 
+fn return_char_index(char_to_find: char, array: Vec<char>) -> usize {
+   let mut count = 0;
+   for letter in array{
+      if letter == char_to_find{
+         return count;
+      }
+      count += 1;
+   }
+   return 10
+}
 
+pub fn pause() {
+   println!("Press any key to continue...");
+   io::stdin().read_line(&mut String::new()).unwrap();
+}
 
 

@@ -1,35 +1,40 @@
      <program>→ ENTER <instructions> EXIT
 <instructions>→ <instruction>;
 	            | <instruction>; <instructions>
- <instruction>→ <buttons> = <direction>
-   <direction>→ FORWARD | BACKWARD | SRIGHT | SLEFT
-     <buttons>→ <button> <key>
-      <button>→ Button
+ <instruction>→ Button <key> = <direction>
+   <direction>→ FORWARD | BACKWARD | LEFT | RIGHT | SRIGHT | SLEFT
          <key>→ A | B | C | D
 
 
 Input: Button A = SRIGHT;
 ENTER <instructions> EXIT
 ENTER <instruction>; EXIT
-ENTER <buttons> = <direction>; EXIT
-ENTER <button> <key> = <direction>; EXIT
 ENTER Button <key> = <direction>; EXIT
 ENTER Button A = <direction>; EXIT
 ENTER Button A = SRIGHT; EXIT
 
 Input: Button A = SRIGHT; Button D = FORWARD;
-ENTER <instructions> EXIT
 ENTER <instruction>; <instructions> EXIT
-ENTER <buttons> = <direction>; <instructions> EXIT
-ENTER <button> <key> = <direction>; <instructions> EXIT
 ENTER Button <key> = <direction>; <instructions> EXIT
-ENTER Button A = <direction>; <instructions> EXIT
+ENTER Button A = <direction>; <instructions>EXIT
 ENTER Button A = SRIGHT; <instructions> EXIT
 ENTER Button A = SRIGHT; <instruction>; EXIT
-ENTER Button A = SRIGHT; <buttons> = <direction>; EXIT
-ENTER Button A = SRIGHT; <button> <key> = <direction>; EXIT
 ENTER Button A = SRIGHT; Button <key> = <direction>; EXIT
 ENTER Button A = SRIGHT; Button D = <direction>; EXIT
 ENTER Button A = SRIGHT; Button D = FORWARD; EXIT
 
 
+Input: Button A = SRIGHT; Button D = FORWARD; Button C = BACKWARD;
+ENTER <instructions> EXIT
+ENTER <instruction>; <instructions> EXIT
+ENTER Button <key> = <direction>; <instructions> EXIT
+ENTER Button A = <direction>; <instructions>EXIT
+ENTER Button A = SRIGHT; <instructions> EXIT --------------------------------------- end of derivation 1
+ENTER Button A = SRIGHT; <instruction>; <instructions> EXIT
+ENTER Button A = SRIGHT; Button <key> = <direction>; <instructions> EXIT
+ENTER Button A = SRIGHT; Button D = <direction>; <instructions> EXIT
+ENTER Button A = SRIGHT; Button D = FORWARD; <instructions> EXIT ------------------- end of derivation 2
+ENTER Button A = SRIGHT; Button D = FORWARD; <instruction> EXIT
+ENTER Button A = SRIGHT; Button D = FORWARD; Button <key> = <direction>; EXIT
+ENTER Button A = SRIGHT; Button D = FORWARD; Button C = <direction>; EXIT
+ENTER Button A = SRIGHT; Button D = FORWARD; Button C = BACKWARD; EXIT --------------end of derivation 3

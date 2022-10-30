@@ -5,51 +5,45 @@
 //Self note: use "cargo build" or "cargo run"
 //run
 // use std::io;
-use std::io::{self, Write};
+use std::io::{self, stdin, stdout, Write};
+
+use crate::functions::pause;
+
+mod derivations;
 mod functions;
-mod classes;
+mod parsetree;
+mod bsp;
 
 fn main() {
     functions::print_grammar();
     let mut input = String::from(functions::get_and_return_input().to_string());
 
-    while input != "HALT"{
+    while input != "HALT" {
         input = functions::remove_spaces(input);
 
         let new_input: Vec<char> = input.chars().collect(); //turning the input string to a vector; allows parsing by index; link: https://stackoverflow.com/questions/24542115/how-to-index-a-string-in-rust
-        
-        if functions::check_for_errors(new_input.clone()) != false{
-            functions::output_decision_menu();
-            let mut decision = String::from(functions::get_decision().to_string());
-            loop {
-                if decision == "1"{
-                    if functions::print_derivations(new_input.clone()) == false{
-                        break;
-                    }
-                } else if decision == "2"{
-                    functions::print_parse_tree(new_input.clone());
-                } else if decision == "3"{
+        if functions::check_for_errors(new_input.clone()) != false {
+            loop{
+                let new_input = functions::remove_prefix_and_suffix(new_input[0..new_input.len()].iter().collect::<String>()); //removes ENTER and EXIT from the string
+                let instructions_group: Vec<&str> = new_input.split_inclusive(";").collect();                                      //create group of instructions sepatated by a semicolon
+                if derivations::print_derivations(instructions_group.clone(), instructions_group.len()) == false {
                     break;
-                } else {
-                    println!("Not a valid option");
                 }
-                functions::output_decision_menu();
-                decision = functions::get_decision();
-            }
-    
-            // ------------  showing input prompt again to restart or terminate program ------------//
-            let mut option = String::new();
-            print!("\n---Restarting---\nSee Grammar Again(Y)\nSkip(Enter)\nEnd Program(HALT)\n---------------\noption: "); let _ = io::stdout().flush();
-            io::stdin().read_line(&mut option).expect("Error reading option from STDIN for option");
-    
-            if option.trim() == "Y"{
-                functions::print_grammar();   
-            }else if option.trim() == "HALT"{
+                println!("Derivation successful\n");
+                functions::pause();
+                if parsetree::print_parsetree(instructions_group.clone(), instructions_group.len()) == false {
+                    break;
+                }
+                println!("Parse tree done\n");
+                functions::pause();
+                bsp::generate_bsp_file(instructions_group.clone(), instructions_group.len());
+                functions::pause();
                 break;
-            }else{
-                println!("skipped...\n");
             }
+        }else{
+            functions::pause();
         }
+        functions::print_grammar();
         input = functions::get_and_return_input();
     }
 
