@@ -15,7 +15,7 @@ fn main() {
     functions::print_grammar();
     let mut input = String::from(functions::get_and_return_input().to_string());
 
-    while input != "HALT" {
+    while input != "QUIT" {
         input = functions::remove_spaces(input);
 
         let new_input: Vec<char> = input.chars().collect(); //turning the input string to a vector; allows parsing by index; link: https://stackoverflow.com/questions/24542115/how-to-index-a-string-in-rust

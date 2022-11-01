@@ -14,6 +14,7 @@ ENTER Button A = <direction>; EXIT
 ENTER Button A = SRIGHT; EXIT
 
 Input: Button A = SRIGHT; Button D = FORWARD;
+ENTER <instructions> EXIT
 ENTER <instruction>; <instructions> EXIT
 ENTER Button <key> = <direction>; <instructions> EXIT
 ENTER Button A = <direction>; <instructions>EXIT

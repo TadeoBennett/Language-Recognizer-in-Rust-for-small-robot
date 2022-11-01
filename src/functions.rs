@@ -19,7 +19,7 @@ Input String Form: ENTER Button A = FORWARD; Button B = BACKWARD; EXIT
 
 pub fn get_and_return_input() -> String {
    let mut input = String::new();
-   print!("Input String(HALT to end): ");
+   print!("Input String(QUIT to end): ");
    let _ = io::stdout().flush(); //allows the input to be on the same line as the prompt; link: https://www.folkstalk.com/2022/07/rust-get-input-on-the-same-line-as-question-with-code-examples.html
 
    io::stdin().read_line(&mut input).expect("Error reading from STDIN"); //reads line or shows error
