@@ -11,7 +11,6 @@ pub fn print_derivations(instructions_group: Vec<&str>, instructions_count: usiz
         let index1_for_direction:usize = return_char_index('=', instruction.clone());
         let index2_for_direction:usize= return_char_index(';', instruction.clone());
         println!("ENTER Button {} = {}; EXIT", instruction[6], instruction[index1_for_direction+1..index2_for_direction].iter().collect::<String>());
-        return true
     }else if instructions_count == 2{
         let instruction: Vec<char> = instructions_group[0].chars().collect(); //convert the only instruction to a vector of chars
         let instruction2: Vec<char> = instructions_group[1].chars().collect(); //convert the only instruction to a vector of 
@@ -36,7 +35,6 @@ pub fn print_derivations(instructions_group: Vec<&str>, instructions_count: usiz
         println!("ENTER Button {} = {}; Button <key> = <direction>; EXIT", instruction[6], direction1);
         println!("ENTER Button {} = {}; Button {} = <direction>; EXIT", instruction[6], direction1, instruction2[6]);
         println!("ENTER Button {} = {}; Button {} = {}; EXIT", instruction[6], direction1, instruction2[6], direction2);
-        return true
     }else if instructions_count == 3{
         let instruction: Vec<char> = instructions_group[0].chars().collect(); //convert the only instruction to a vector of chars
         let instruction2: Vec<char> = instructions_group[1].chars().collect(); //convert the only instruction to a vector of 
@@ -72,7 +70,6 @@ pub fn print_derivations(instructions_group: Vec<&str>, instructions_count: usiz
         println!("ENTER Button {} = {}; Button {} = {}; Button {} = <direction>; EXIT", instruction[6], direction1, instruction2[6], direction2, instruction3[6]);
         println!("ENTER Button {} = {}; Button {} = {}; Button {} = {}; EXIT", instruction[6], direction1, instruction2[6], direction2, instruction3[6], direction3);
 
-        return true
     }else if instructions_count == 4{
         let instruction: Vec<char> = instructions_group[0].chars().collect(); //convert the only instruction to a vector of chars
         let instruction2: Vec<char> = instructions_group[1].chars().collect(); //convert the only instruction to a vector of 
@@ -116,14 +113,10 @@ pub fn print_derivations(instructions_group: Vec<&str>, instructions_count: usiz
         println!("ENTER Button {} = {}; Button {} = {}; Button {} = {}; Button <key> = <direction>; EXIT", instruction[6], direction1, instruction2[6], direction2, instruction3[6], direction3);
         println!("ENTER Button {} = {}; Button {} = {}; Button {} = {}; Button {} = <direction>; EXIT", instruction[6], direction1, instruction2[6], direction2, instruction3[6], direction3, instruction4[6]);
         println!("ENTER Button {} = {}; Button {} = {}; Button {} = {}; Button {} = {}; EXIT", instruction[6], direction1, instruction2[6], direction2, instruction3[6], direction3, instruction4[6], direction4);
-
-        return true
     }
 
-    return true
+    true
 }
-
-
 
 fn return_char_index(char_to_find: char, array: Vec<char>) -> usize {
    let mut count = 0;

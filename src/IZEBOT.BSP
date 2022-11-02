@@ -3,8 +3,8 @@
 KEY		VAR		Byte
 Main:		DO
      		SERIN 3,2063,250,Timeout,[KEY]
-IF KEY = "A" OR KEY = "a" THEN GOSUB FORWARD
-IF KEY = "B" OR KEY = "b" THEN GOSUB BACKWARD
+	IF KEY = "A" OR KEY = "a" THEN GOSUB FORWARD
+	IF KEY = "B" OR KEY = "b" THEN GOSUB BACKWARD
 
 			LOOP
 Timeout:	GOSUB Motor_OFF
@@ -12,9 +12,5 @@ Timeout:	GOSUB Motor_OFF
 '+++++ Movement Procedure ++++++++++++++++++++++++++++++
 Forward: HIGH 13 : LOW 12 : HIGH 15 : LOW 14 : RETURN
 Backward: HIGH 12 : LOW 13 : HIGH 14 : LOW 15 : RETURN
-TurnLeft: HIGH 13 : LOW 12 : LOW 15 : LOW 14 : RETURN
-TurnRight: LOW 13 : LOW 12 : HIGH 15 : LOW 14 : RETURN
-SpinLeft: HIGH 13 : LOW 12 : HIGH 14 : LOW 15 : RETURN
-SpinRight: HIGH 12 : LOW 13 : HIGH 15 : LOW 14 : RETURN
 Motor_OFF: LOW 13 : LOW 12 : LOW 15 : LOW 14 : RETURN
 '+++++++++++++++++++++++++++++++++++++++++++++++++++++++

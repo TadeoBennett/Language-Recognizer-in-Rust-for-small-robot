@@ -18,7 +18,6 @@ pub fn print_parsetree(instructions_group: Vec<&str>, instructions_count: usize)
       println!("      |             |              |         \n   ");
       println!("    Button         {}              {}    \n", instruction[6], instruction[index1_for_direction+1..index2_for_direction].iter().collect::<String>());
       
-      return true;
    }else if instructions_count == 2{
       let instruction: Vec<char> = instructions_group[0].chars().collect(); //convert the only instruction to a vector of chars
       let instruction2: Vec<char> = instructions_group[1].chars().collect(); //convert the only instruction to a vector of 
@@ -49,7 +48,7 @@ pub fn print_parsetree(instructions_group: Vec<&str>, instructions_count: usize)
       print!("          |        |          |                           |     |          |       \n");
       print!("          |        |          |                           |     |          |       \n");
       print!("       Button      {}        {}                    Button   {}      {}       \n", instruction[6], direction1, instruction2[6], direction2);
-      return true;
+      
    }else if instructions_count == 3{
       let instruction: Vec<char> = instructions_group[0].chars().collect(); //convert the only instruction to a vector of chars
       let instruction2: Vec<char> = instructions_group[1].chars().collect(); 
@@ -68,16 +67,16 @@ pub fn print_parsetree(instructions_group: Vec<&str>, instructions_count: usize)
       index2_for_direction= return_char_index(';', instruction3.clone());
       let direction3 = instruction3[index1_for_direction.clone()+1..index2_for_direction.clone()].iter().collect::<String>().clone();
       
-      print!("                                             <program>                                                                               \n");
-      print!("                                          /      |      \\                                                                           \n");
-      print!("                                       /         |        \\                                                                         \n");
-      print!("                                     /           |          \\                                                                       \n");
-      print!("                                ENTER      <instructions>     EXIT                                                                   \n");
-      print!("                                         /               \\                                                                          \n");
-      print!("                                       /                   \\                                                                        \n");
-      print!("                                 <instruction>     ;     <instructions>                                                              \n");
-      print!("                              /                                  |        \\                                                         \n");   
-      print!("                          /                                      |            \\                                                     \n");   
+      print!("                                             <program>                                                        \n");
+      print!("                                          /      |      \\                                                    \n");
+      print!("                                       /         |        \\                                                  \n");
+      print!("                                     /           |          \\                                                \n");
+      print!("                                ENTER      <instructions>     EXIT                                            \n");
+      print!("                                         /               \\                                                   \n");
+      print!("                                       /                   \\                                                 \n");
+      print!("                                 <instruction>     ;     <instructions>                                       \n");
+      print!("                              /                                  |        \\                                  \n");   
+      print!("                          /                                      |            \\                              \n");   
       print!("                 Button <key> = <direction>        ;     <instructions>                                       \n");   
       print!("                          |          |                 /               \\                                   \n");   
       print!("                          |          |               /                    \\                                \n");
@@ -88,7 +87,6 @@ pub fn print_parsetree(instructions_group: Vec<&str>, instructions_count: usize)
       print!("                          |          |            |          |       <Button <key> = <direction> ;       \n");    
       print!("                          |          |            |          |                |           |             \n");         
       print!("                         {}         {}          {}         {}               {}          {}                     \n", instruction[6], direction1, instruction2[6], direction2, instruction3[6], direction3);         
-      return true;
 
       }else if instructions_count == 4{
       let instruction: Vec<char> = instructions_group[0].chars().collect(); //convert the only instruction to a vector of chars
@@ -136,12 +134,9 @@ pub fn print_parsetree(instructions_group: Vec<&str>, instructions_count: usize)
       print!("                                      |          |           |           |                 |          |                |           |             \n");         
       print!("                                      {}         {}       {}          {}              {}         {}           {}          {}                     \n", instruction[6], direction1, instruction2[6], direction2, instruction3[6], direction3, instruction4[6], direction4);        
 
-      return true;
    }
    true
 }
-
-
 
 //RETURN the index position of where a certain character is in a given vector of chars
 fn return_char_index(char_to_find: char, array: Vec<char>) -> usize {
