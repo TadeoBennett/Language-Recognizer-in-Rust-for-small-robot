@@ -1,7 +1,7 @@
 # Language-Recognizer-in-Rust-for-small-robot
 
 This was a team collaboration for a school project:
-Team memebrs: Abel Blanco, Michael Sanchez, Levi Coc, Francis Mejia and myself Tadeo Bennett
+Team members: Abel Blanco, Michael Sanchez, Levi Coc, Francis Mejia and myself Tadeo Bennett
 
 View our presentation here: https://cutt.ly/tMyemYW
 
