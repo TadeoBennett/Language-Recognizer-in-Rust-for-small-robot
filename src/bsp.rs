@@ -5,12 +5,12 @@ pub fn generate_bsp_file(instructions_group: Vec<&str>) {
    println!("\n************* SHOWING BSP FILE FOR IZEBOT ****************\n");
     let mut file = File::create("IZEBOT.BSP").expect("Error encountered while creating file!");
 
-    let mut movement_string: String = String::from("");
+    let mut movement_string: Vec<String> = Vec::new();
     let mut izebot: String = "'{$STAMP BS2p}
 '{$PBASIC 2.5}
 KEY\t\tVAR\t\tByte
 Main:\t\tDO
-     \t\tSERIN 3,2063,250,Timeout,[KEY]\n"
+     \t\tSERIN 3,2063,250,Timeout,[KEY]"
         .to_owned(); //header code
 
     for instruction in instructions_group {
@@ -22,15 +22,15 @@ Main:\t\tDO
         let variable = new_instruction[return_char_index('=', new_instruction.clone()) - 1];
         let direction = new_instruction[index1_for_direction.clone() + 1..index2_for_direction.clone()].iter().collect::<String>().clone();
 
-        izebot.push_str("\tIF KEY = \"");
+        izebot = izebot + "\n";
+        izebot.push_str("\t\tIF KEY = \"");
         izebot.push(variable);
         izebot.push_str("\" OR KEY = \"");
         izebot.push_str(&variable.to_lowercase().to_string());
         izebot.push_str("\" THEN GOSUB ");
-        izebot.push_str(&direction.to_string());
-        izebot = izebot + "\n";
+        izebot.push_str(&direction_with_first_capital_letter(&direction.to_lowercase()));
 
-        movement_string.push_str(&add_subroutine( &direction));
+        movement_string.push(add_subroutine(&direction));
     }
     //IF KEY = “x" OR KEY = “y" THEN GOSUB routine
 
@@ -41,7 +41,9 @@ Timeout:\tGOSUB Motor_OFF
 '+++++ Movement Procedure ++++++++++++++++++++++++++++++",
     ); //footer 1 code
 
-    izebot.push_str(&movement_string);
+    for direction in movement_string.iter().rev() {
+      izebot.push_str(direction)
+   }
 
     izebot.push_str(
         "\nMotor_OFF: LOW 13 : LOW 12 : LOW 15 : LOW 14 : RETURN
@@ -79,6 +81,7 @@ fn add_subroutine(direction: & str) -> String{
    }  
 
    return format!("");
+   
 }
 
 fn return_char_index(char_to_find: char, array: Vec<char>) -> usize {
@@ -90,4 +93,18 @@ fn return_char_index(char_to_find: char, array: Vec<char>) -> usize {
       count += 1;
    }
    return 10
+}
+ 
+fn direction_with_first_capital_letter(mut s: &str) -> String {  //gotten using the resource: https://cutt.ly/jN7BiO7
+   if s == "sright"{
+      s = "spinRight";
+   }else if s == "sleft"{
+      s = "spinLeft";
+   }
+   let mut c = s.chars();
+
+   match c.next() {
+       None => String::new(),
+       Some(f) => f.to_uppercase().chain(c).collect(),
+   }
 }
